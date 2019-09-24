@@ -63,7 +63,6 @@ public class SinglePlayerGameTest {
 		rollSpare(); // 10 + 0
 		rollMany(6, 0); // 0 points aux 3 tours suivants
 		rollMany(3, 10); // 30 points au dernier tour
-
 		assertEquals(84, game.score());
 	}
 
