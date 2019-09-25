@@ -6,17 +6,22 @@ package bowling;
  * final de ce joueur
  */
 public class SinglePlayerGame {
+            
+        /** représente le nombre de tours restants */
         private int tours;
+        /** Nombre de points total de la partie */
         private int points;
+        /** Nombre de quilles restante dans le tour */
         private int nbQuilles;
+        /** Indique l'état de la manche true si deuxièmes boules sinon false */
         private boolean secondBoule;
+        /** Indique le nombre de tours restants qui comptent doubles */
         private int compteDouble;
-        
-        private final Integer POINTSMAX = 300;
+
         
 	/**
-	 * Constructeur
-	 */
+         * Constructeur SInglePlayerGame
+         */
 	public SinglePlayerGame() {
             this.tours = 10;
             this.points = 0;
@@ -24,7 +29,7 @@ public class SinglePlayerGame {
             this.secondBoule = false;
             this.compteDouble = 0;
 	}
-
+        
 	/**
 	 * Cette méthode doit être appelée à chaque lancé de boule
 	 *
@@ -32,9 +37,20 @@ public class SinglePlayerGame {
 	 * ce lancé
 	 */
 	public void lancer(int nombreDeQuillesAbattues) {
+            /** compteDoubleLocale = 1 si spare fait à ce tir et 2 si strike fait
+             *  à ce tir
+             */ 
             int compteDoubleLocale = 0;
             nbQuilles -= nombreDeQuillesAbattues;
-            if(nbQuilles == 0) {
+            if(nbQuilles != 0) {
+                // cas par défaut
+                if(secondBoule) {
+                    secondBoule = false;
+                } else {
+                    secondBoule = true;
+                }
+            } else {
+                //cas spare ou strike
                 if(secondBoule) {
                     //cas Spare
                     secondBoule = false; 
@@ -52,14 +68,9 @@ public class SinglePlayerGame {
                         compteDoubleLocale = 2;
                     }
                 }
-            } else {
-                if(secondBoule) {
-                    secondBoule = false;
-                } else {
-                    secondBoule = true;
-                }
+
             }
-            
+            // cas boule triplé ou doublé
             if(compteDouble != 0) {
                 if(compteDouble >= 3 && compteDoubleLocale == 2) {
                     points += nombreDeQuillesAbattues*3;
@@ -67,11 +78,12 @@ public class SinglePlayerGame {
                     points += nombreDeQuillesAbattues*2;
                 }
                 compteDouble --;
+            // cas standard    
             } else {
                 points += nombreDeQuillesAbattues;
             }
-            
             compteDouble += compteDoubleLocale;
+            //Passe au prochain tour
             if(secondBoule == false) {
                 tours --;
                 nbQuilles = 10;
@@ -84,6 +96,6 @@ public class SinglePlayerGame {
 	 * @return Le score du joueur
 	 */
 	public int score() {
-		return points;
+            return points;
 	}
 }
